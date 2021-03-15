@@ -9,13 +9,13 @@ function Header() {
             <div className="header">
                 <div className="logo" />
                 <Menu mode="horizontal">
-                    <Menu.Item key="1">
+                    <Menu.Item key="home">
                         <Link to="/">Home</Link>
                     </Menu.Item>
-                    <Menu.Item key="2">
+                    <Menu.Item key="atendimento">
                         <Link to="/atendimento">Atendimento</Link>
                     </Menu.Item>
-                    <Menu.Item key="3">
+                    <Menu.Item key="admin">
                         <Link to="/admin">Administração</Link>
                     </Menu.Item>
                 </Menu>
