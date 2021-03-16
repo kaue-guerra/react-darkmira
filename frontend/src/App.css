@@ -1,3 +1,11 @@
+body {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #333;
+    overflow-x: hidden;
+    background-color: #081229;
+}
+
 .site-layout-content {
     min-height: 280px;
     padding: 24px;
