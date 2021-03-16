@@ -1,0 +1,8 @@
+.container-fluid {
+    margin: auto;
+    font-size: 60px !important;
+}
+
+.ant-layout {
+    background-color: #001529;
+}

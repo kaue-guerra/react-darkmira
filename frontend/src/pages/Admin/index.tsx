@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Row, Col, Space } from 'antd';
+import { CheckCircleOutlined, DeleteOutlined, EditOutlined, EyeOutlined, PlusCircleOutlined } from '@ant-design/icons';
 
 import api from '../../services/api';
 import moment from 'moment';
 
 import './index.css'
 import { useHistory } from 'react-router';
+import Column from 'antd/lib/table/Column';
 
 
 interface ISchedule {
@@ -16,7 +18,6 @@ interface ISchedule {
     date_schedule: Date,
     hour_schedule: Date,
     status: string,
-    serviceId: number
     service: string
 }
 interface IService {
@@ -57,6 +58,21 @@ const Admin: React.FC = () => {
 
     }
 
+    function newSchedule() {
+        history.push('/atendimento/novo')
+    }
+    function newService() {
+        history.push('/servico/novo')
+    }
+
+    function editService(id: number) {
+        history.push(`/servico/editar/${id}`)
+
+    }
+    function editSchedule(id: number) {
+        history.push(`/atendimento/editar/${id}`)
+
+    }
     function formateDate(date: Date) {
         return moment(date).format("DD/MM/YYYY")
     }
@@ -65,92 +81,18 @@ const Admin: React.FC = () => {
         return moment(date).format("HH:mm")
     }
 
-    function actions() {
-        return (<td>
-            <Space>
-                <Button>Editar</Button>
-                <Button>Concluir</Button>
-                <Button>Visualizar</Button>
-                <Button>Deletar</Button>
-            </Space>
-        </td>)
-    }
+    const dataServices = services.map(service => (
 
-    function newSchedule() {
-        history.push('/atendimento/novo')
-    }
-    function newService() {
-        history.push('/servico/novo')
-    }
 
-    const columnsServices = [
         {
-            title: 'Nome',
-            dataIndex: 'name',
-            width: '25%',
-        },
-        {
-            title: 'Descrição',
-            dataIndex: 'description',
-            width: '25%',
-        },
-        {
-            title: 'Preço',
-            dataIndex: 'price',
-            width: '25%',
-        },
-        {
-            title: 'Ações',
-            dataIndex: 'actions',
-            width: '15%',
-        },
-    ];
+            key: service.id,
+            name: service.name,
+            description: service.description,
+            price: service.price,
 
-    const columnsSchedules = [
-        {
-            title: 'Placa do carro',
-            dataIndex: 'car_plate',
-            width: '10%',
-        },
-        {
-            title: 'Proprietário',
-            dataIndex: 'car_owner',
-            width: '15%',
-        },
-        {
-            title: 'Descrição',
-            dataIndex: 'description',
-            width: '20%',
-        },
-        {
-            title: 'Data',
-            dataIndex: 'date_schedule',
-            width: '10%',
-        },
-        {
-            title: 'Hora',
-            dataIndex: 'hour_schedule',
-            width: '10%',
-        },
-        {
-            title: 'Status',
-            dataIndex: 'status',
-            width: '10%',
-        },
-        {
-            title: 'Serviço',
-            dataIndex: 'serviceId',
-            width: '10%',
-        },
-        {
-            title: 'Ações',
-            dataIndex: 'actions',
-            width: '20%',
-        },
-    ];
-
+        }
+    ))
     const dataSchedules = schedules.map(schedule => (
-
 
         {
             key: schedule.id,
@@ -160,20 +102,7 @@ const Admin: React.FC = () => {
             date_schedule: formateDate(schedule.date_schedule),
             hour_schedule: formateHour(schedule.date_schedule),
             status: schedule.status,
-            serviceId: schedule.serviceId,
-            actions: actions(),
-
-        }
-    ))
-    const dataServices = services.map(service => (
-
-
-        {
-            key: service.id,
-            name: service.name,
-            description: service.description,
-            price: service.price,
-            actions: actions(),
+            serviceId: schedule.service,
 
         }
     ))
@@ -185,14 +114,41 @@ const Admin: React.FC = () => {
                 <Col span={18}>
                     <div className="header-table">
                         <h2>Serviços</h2>
-                        <Button type="primary" onClick={newService}>Novo Serviço</Button>
+                        <Button type="primary" onClick={newService}><PlusCircleOutlined />Novo Serviço</Button>
                     </div>
-                    <Table columns={columnsServices} dataSource={dataServices} pagination={{ position: ["bottomCenter"], pageSize: 4, hideOnSinglePage: true }} />
+                    <Table dataSource={dataServices} pagination={{ position: ["bottomLeft"], pageSize: 4, hideOnSinglePage: true }}>
+                        <Column title="Nome" dataIndex="name" key="name" />
+                        <Column title="Descrição" dataIndex="description" key="description" />
+                        <Column title="Preço" dataIndex="price" key="price" />
+                        <Column align="center" width="25%" title="Ações" key="action" render={() => (
+                            <Space>
+                                <Button ><EditOutlined />Editar</Button>
+                                <Button><EyeOutlined />Visualizar</Button>
+                                <Button danger><DeleteOutlined />Deletar</Button>
+                            </Space>
+                        )} />
+                    </Table>
+
                     <div className="header-table">
                         <h2>Atendimentos</h2>
-                        <Button type="primary" onClick={newSchedule}>Novo Atendimento</Button>
+                        <Button type="primary" onClick={newSchedule}><PlusCircleOutlined />Novo Atendimento</Button>
                     </div>
-                    <Table columns={columnsSchedules} dataSource={dataSchedules} pagination={{ position: ["bottomCenter"], pageSize: 4, hideOnSinglePage: true }} />
+                    <Table dataSource={dataSchedules} pagination={{ position: ["bottomLeft"], pageSize: 4, hideOnSinglePage: true }}>
+                        <Column title="Placa do carro" dataIndex="car_plate" key="car_plate" />
+                        <Column title="Proprietário" dataIndex="car_owner" key="car_owner" />
+                        <Column title="Data" dataIndex="date_schedule" key="date_schedule" />
+                        <Column title="Hora" dataIndex="hour_schedule" key="hour_schedule" />
+                        <Column title="Status" dataIndex="status" key="status" />
+                        <Column title="Serviço" dataIndex="serviceId" key="serviceId" />
+                        <Column width="20%" align="center" title="Ações" key="action" render={() => (
+                            <Space>
+                                <Button ><EditOutlined />Editar</Button>
+                                <Button><CheckCircleOutlined />Concluir</Button>
+                                <Button><EyeOutlined />Visualizar</Button>
+                                <Button danger><DeleteOutlined />Deletar</Button>
+                            </Space>
+                        )} />
+                    </Table>
                 </Col>
             </Row>
         </div>
