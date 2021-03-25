@@ -55,7 +55,7 @@ const FormAtendimento: React.FC = () => {
 
 
         {
-            value: service.id,
+            value: service.name,
             label: service.name,
 
         }))
@@ -74,7 +74,7 @@ const FormAtendimento: React.FC = () => {
                     <Form.Item name={['car_owner']} label="Nome do proprietario" rules={[{ required: true, type: 'string', message: "Digite o nome do proprietario" }]} shouldUpdate >
                         <Input />
                     </Form.Item>
-                    <Form.Item name={['service']} label="Tipo de atendimento" rules={[{ required: true, type: 'string', message: "Escolha o tipo de atendimento" }]} shouldUpdate >
+                    <Form.Item name={['service']} label="Tipo de atendimento" rules={[{ required: true, message: "Escolha o tipo de atendimento" }]} shouldUpdate >
                         <Cascader options={dataServices} />
                     </Form.Item>
                     <Form.Item name={['description']} label="Descrição" rules={[{ required: true, type: 'string', message: "Digite a descrição do serviço" }]} shouldUpdate >
@@ -83,6 +83,7 @@ const FormAtendimento: React.FC = () => {
                     <Form.Item name="date_schedule" label="Data e hora" rules={[{ required: true, type: 'date', message: "Selecione a data e hora que deseja marcar" }]} shouldUpdate >
                         <DatePicker showTime format="DD-MM-YYYY HH:mm" />
                     </Form.Item>
+                    <Form.Item name="status" hidden={true} initialValue="Agendada" shouldUpdate ></Form.Item>
                     <Form.Item>
                         <Button type="primary" htmlType="submit" >Salvar</Button>
                     </Form.Item>

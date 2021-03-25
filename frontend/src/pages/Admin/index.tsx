@@ -94,6 +94,7 @@ const Admin: React.FC = () => {
     ))
     const dataSchedules = schedules.map(schedule => (
 
+
         {
             key: schedule.id,
             car_plate: schedule.car_plate,
@@ -102,7 +103,7 @@ const Admin: React.FC = () => {
             date_schedule: formateDate(schedule.date_schedule),
             hour_schedule: formateHour(schedule.date_schedule),
             status: schedule.status,
-            serviceId: schedule.service,
+            service: schedule.service,
 
         }
     ))
@@ -139,7 +140,7 @@ const Admin: React.FC = () => {
                         <Column title="Data" dataIndex="date_schedule" key="date_schedule" />
                         <Column title="Hora" dataIndex="hour_schedule" key="hour_schedule" />
                         <Column title="Status" dataIndex="status" key="status" />
-                        <Column title="Serviço" dataIndex="serviceId" key="serviceId" />
+                        <Column title="Serviço" dataIndex="service" key="service" />
                         <Column width="20%" align="center" title="Ações" key="action" render={() => (
                             <Space>
                                 <Button ><EditOutlined />Editar</Button>
